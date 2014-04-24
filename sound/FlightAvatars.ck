@@ -1,4 +1,4 @@
-//FlightAvatar by WWC
+//FlightAvatar sound design by WWC
 //SawOsc for Bird avatar
 //TriOsc for Nimbus
 //SinOsc for Ballon
@@ -18,23 +18,26 @@ SqrOsc kite_osc => ADSR kite_env => r;
 80 => int D;
 0.9 => float S;
 100 => int R;
-A+D+R => int nDur;
 
 
 0.08 => r.mix;
 
 //Specific Parameters
 400 => bird_osc.freq;
-bird_env.set(A::ms, D::ms, S, R::ms);
+bird_env.set((A+20)::ms, (D-70)::ms, S, (R+100)::ms);
+A+20+D-70+R+100 => int birdDur;
 
 1000 => nimbus_osc.freq;
-nimbus_env.set(A::ms, D::ms, S, R::ms);
+nimbus_env.set((A+200)::ms, (D+100)::ms, S, (R+100)::ms);
+A+200+D+100+R+100 => int nimbusDur;
 
 800 => balloon_osc.freq;
-balloon_env.set(A::ms, D::ms, S, R::ms);
+balloon_env.set((A+20)::ms, (D-70)::ms, S, (R-90)::ms);
+A+20+D-70+R-90 => int balloonDur;
 
 300 => kite_osc.freq;
-kite_env.set(A::ms, D::ms, S, R::ms);
+kite_env.set((A+100)::ms, D::ms, S, (R+100)::ms);
+A+100+D+R+100 => int kiteDur;
 
 
 //Open Sound Control from nexus:
@@ -63,7 +66,7 @@ function void birdSpork()
             {
                 0.25 => bird_osc.gain;
                 bird_env.keyOn();
-                nDur::ms => now;
+                birdDur::ms => now;
                 bird_env.keyOff();
             }
         }
@@ -84,7 +87,7 @@ function void nimbusSpork()
             {
                 0.9 => nimbus_osc.gain;
                 nimbus_env.keyOn();
-                nDur::ms => now;
+                nimbusDur::ms => now;
                 nimbus_env.keyOff();
             }
         }
@@ -105,7 +108,7 @@ function void balloonSpork()
             {
                 0.5 => balloon_osc.gain;
                 balloon_env.keyOn();
-                nDur::ms => now;
+                balloonDur::ms => now;
                 balloon_env.keyOff();
             }
         }
@@ -126,7 +129,7 @@ function void kiteSpork()
             {
                 0.25 => kite_osc.gain;
                 kite_env.keyOn();
-                nDur::ms => now;
+                kiteDur::ms => now;
                 kite_env.keyOff();
             }
         }
