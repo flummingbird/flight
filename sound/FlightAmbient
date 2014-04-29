@@ -1,0 +1,51 @@
+//FlightAmbient by WWC
+//Ambient sounds for air
+//noise+filters for wind
+
+
+// add
+//    Machine.add( "foo.ck" ) => int id;
+
+// remove shred with id
+//   Machine.remove( id );
+
+// add
+//  Machine.add( "boo.ck" ) => id
+// replace shred with "bar.ck"
+//  Machine.replace( id, "bar.ck" );
+
+
+Noise wind => Gain g => ResonZ wind_filter => JCRev r => dac;
+
+//Global Param
+0.05 => r.mix;
+0.05 => g.gain;
+.001 => float t;
+
+//1000-9000hz
+//wind_filter.set(3000, 3);
+
+fun void windSpork(){
+    while(true){
+        100+Std.fabs(Math.sin(t) * 9000) => wind_filter.freq;
+        t + 0.0001 =>t;
+        //<<<t>>>;
+        10::ms => now;
+    }    
+}
+
+
+2=> int i;
+
+while(true){
+    spork ~ windSpork();
+    15::second=> now;
+    i++;
+    <<<i>>>;
+    if(i>4){ 
+        Machine.remove(i-3);
+        <<<i>>>;
+    }
+}
+
+
