@@ -42,7 +42,7 @@ fun void windSpork(){
 
 while(true){
     spork ~ windSpork();
-    20::second=> now;
+    30::second=> now;
     i++;
     <<<i>>>;
     if(i>4){ 
